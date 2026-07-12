@@ -1,0 +1,866 @@
+/* Landing Page Animations */
+
+/* Logo animations */
+.pocket-logo {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pocket-logo:hover {
+  transform: rotate(5deg) scale(1.1);
+  box-shadow: 0 16px 32px rgba(24, 37, 98, 0.35);
+}
+
+.pocket-logo-bars span {
+  transition: all 0.4s ease;
+}
+
+.pocket-logo:hover .pocket-logo-bars span {
+  animation: bar-bounce 0.6s ease-in-out;
+}
+
+@keyframes bar-bounce {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(1.3); }
+}
+
+/* Ring pulse animation */
+.pocket-logo-ring {
+  animation: ring-pulse 2s ease-in-out infinite;
+}
+
+@keyframes ring-pulse {
+  0%, 100% { transform: translateX(-50%) scale(1); opacity: 1; }
+  50% { transform: translateX(-50%) scale(1.1); opacity: 0.8; }
+}
+
+.pocket-logo-ring::after {
+  animation: dot-glow 2s ease-in-out infinite;
+}
+
+@keyframes dot-glow {
+  0%, 100% { box-shadow: 0 0 0 rgba(255,255,255,0.5); }
+  50% { box-shadow: 0 0 8px rgba(255,255,255,0.9); }
+}
+
+/* Menu hover animations */
+.pocket-menu a {
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.pocket-menu a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #675df2;
+  transition: width 0.3s ease;
+}
+
+.pocket-menu a:hover::after {
+  width: 100%;
+}
+
+.pocket-menu a:hover {
+  color: #5f56ee;
+  transform: translateY(-2px);
+}
+
+/* Button animations */
+.pocket-signup {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.pocket-signup::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.5s;
+}
+
+.pocket-signup:hover::before {
+  left: 100%;
+}
+
+.pocket-signup:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 12px 24px rgba(90, 79, 229, 0.5);
+}
+
+.pocket-login {
+  transition: all 0.3s ease;
+}
+
+.pocket-login:hover {
+  transform: scale(1.05);
+  color: #4a3fd8;
+}
+
+/* Hero section animations */
+.pocket-title {
+  animation: fade-up 0.8s ease-out;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pocket-copy {
+  animation: fade-up 0.8s ease-out 0.2s backwards;
+}
+
+.pocket-visual {
+  animation: fade-in 1s ease-out 0.4s backwards;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Visual board animations */
+.visual-board {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.balance-card {
+  animation: slide-right 1s ease-out 0.6s backwards, float 3s ease-in-out infinite 1s;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.balance-card:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 16px 32px rgba(30, 38, 73, 0.25);
+}
+
+@keyframes slide-right {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.income-card {
+  animation: slide-left 1s ease-out 0.8s backwards, float 3s ease-in-out infinite 1.5s;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.income-card:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 16px 24px rgba(38, 45, 58, 0.3);
+}
+
+@keyframes slide-left {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.avatar-dot {
+  animation: avatar-pop 0.5s ease-out backwards;
+}
+
+@keyframes avatar-pop {
+  from { transform: scale(0); }
+  to { transform: scale(1); }
+}
+
+.avatar-dot.one { animation-delay: 1s; }
+.avatar-dot.two { animation-delay: 1.1s; }
+.avatar-dot.three { animation-delay: 1.2s; }
+.avatar-more { animation-delay: 1.3s; }
+
+.income-icon {
+  animation: icon-spin 1s ease-out 1.2s backwards;
+}
+
+@keyframes icon-spin {
+  from {
+    transform: rotate(-180deg) scale(0);
+  }
+  to {
+    transform: rotate(0) scale(1);
+  }
+}
+
+.income-progress {
+  animation: progress-fill 1.5s ease-out 1.5s backwards;
+}
+
+@keyframes progress-fill {
+  from { width: 0%; }
+  to { width: 74%; }
+}
+
+.visual-dot {
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.7; }
+}
+
+.visual-glow {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.1); }
+}
+
+/* Stats and testimonials */
+.stat-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.stat-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 24px 48px rgba(98, 93, 145, 0.12);
+}
+
+.testimonial {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.testimonial:hover {
+  transform: translateX(8px);
+  box-shadow: 0 24px 48px rgba(98, 93, 145, 0.12);
+}
+
+/* CTA section */
+.pocket-cta {
+  transition: all 0.3s ease;
+}
+
+.pocket-cta:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 48px rgba(75, 57, 196, 0.28);
+}
+
+.cta-primary, .cta-secondary {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cta-primary:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 16px 32px rgba(32, 20, 128, 0.22);
+}
+
+.cta-secondary:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.4);
+  transform: translateY(-3px) scale(1.05);
+}
+
+/* Footer */
+.socials a {
+  transition: all 0.3s ease;
+}
+
+.socials a:hover {
+  transform: translateY(-3px) rotate(5deg) scale(1.1);
+  background: #6258f0;
+  color: white;
+  box-shadow: 0 4px 12px rgba(98, 88, 240, 0.3);
+}
+
+.footer-links a {
+  transition: all 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #5f56ee;
+  transform: translateX(4px);
+}
+
+
+/* Scroll reveal animations */
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Stat cards animation on scroll */
+.stat-card {
+  animation: scale-in 0.6s ease-out backwards;
+}
+
+.stat-card:nth-child(1) { animation-delay: 0.1s; }
+.stat-card:nth-child(2) { animation-delay: 0.2s; }
+.stat-card:nth-child(3) { animation-delay: 0.3s; }
+.stat-card:nth-child(4) { animation-delay: 0.4s; }
+
+/* Testimonial animations */
+.testimonial {
+  animation: slide-in-right 0.8s ease-out backwards;
+}
+
+.testimonial:nth-child(1) { animation-delay: 0.2s; }
+.testimonial:nth-child(2) { animation-delay: 0.4s; }
+
+.testimonial::before {
+  transition: height 0.3s ease;
+}
+
+.testimonial:hover::before {
+  top: 8px;
+  bottom: 8px;
+}
+
+/* Testimonial quote effect */
+.testimonial-quote {
+  transition: all 0.3s ease;
+}
+
+.testimonial:hover .testimonial-quote {
+  color: #2d2e3f;
+  transform: translateX(4px);
+}
+
+/* Avatar animations */
+.testimonial-avatar {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.testimonial:hover .testimonial-avatar {
+  transform: scale(1.15) rotate(5deg);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Proof title animation */
+.proof-title {
+  animation: fade-up 0.8s ease-out;
+}
+
+/* CTA section animations */
+.pocket-cta h2 {
+  animation: fade-up 0.8s ease-out;
+}
+
+.pocket-cta p {
+  animation: fade-up 0.8s ease-out 0.2s backwards;
+}
+
+.cta-actions {
+  animation: fade-up 0.8s ease-out 0.4s backwards;
+}
+
+.cta-note {
+  animation: fade-in 1s ease-out 0.6s backwards;
+}
+
+/* Interactive background effect */
+.pocket-cta {
+  position: relative;
+  overflow: hidden;
+}
+
+.pocket-cta::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.05) 50%,
+    transparent 70%
+  );
+  animation: cta-shimmer 6s linear infinite;
+}
+
+@keyframes cta-shimmer {
+  0% {
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(100%) translateY(100%) rotate(45deg);
+  }
+}
+
+/* Button ripple effect */
+.cta-primary, .cta-secondary {
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-primary::after, .cta-secondary::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.cta-primary:hover::after, .cta-secondary:hover::after {
+  width: 400px;
+  height: 400px;
+}
+
+
+/* Enhanced stat card animations */
+.stat-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(102, 95, 240, 0.1),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.stat-card:hover::after {
+  left: 100%;
+}
+
+.stat-value {
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover .stat-value {
+  transform: scale(1.1);
+}
+
+.stat-label {
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover .stat-label {
+  color: #5f56ee;
+  font-weight: 900;
+}
+
+/* Animated gradient border for stat cards */
+.stat-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 34px;
+  padding: 2px;
+  background: linear-gradient(45deg, #6366F1, #8B5CF6, #EC4899, #6366F1);
+  background-size: 300% 300%;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s;
+  animation: gradient-rotate 3s linear infinite;
+}
+
+.stat-card:hover::before {
+  opacity: 1;
+}
+
+@keyframes gradient-rotate {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Testimonial card enhanced effects */
+.testimonial-person {
+  transition: transform 0.3s ease;
+}
+
+.testimonial:hover .testimonial-person {
+  transform: translateX(4px);
+}
+
+.testimonial-name, .testimonial-role {
+  transition: color 0.3s ease;
+}
+
+.testimonial:hover .testimonial-name {
+  color: #5f56ee;
+}
+
+/* Footer animation on scroll */
+.footer-grid > div {
+  animation: fade-up 0.8s ease-out backwards;
+}
+
+.footer-grid > div:nth-child(1) { animation-delay: 0.1s; }
+.footer-grid > div:nth-child(2) { animation-delay: 0.2s; }
+.footer-grid > div:nth-child(3) { animation-delay: 0.3s; }
+.footer-grid > div:nth-child(4) { animation-delay: 0.4s; }
+
+/* Smooth page scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Header scroll effect */
+.pocket-header {
+  transition: all 0.3s ease;
+}
+
+.pocket-header.scrolled {
+  box-shadow: 0 4px 20px rgba(102, 95, 240, 0.1);
+  background: rgba(251, 247, 255, 0.98);
+}
+
+
+/* ==========================================
+   ANIMASI BERGERAK-GERAK OTOMATIS
+   ========================================== */
+
+/* Stats cards - floating animation */
+.stat-card:nth-child(1) {
+  animation: float-1 3s ease-in-out infinite, scale-in 0.6s ease-out backwards 0.1s;
+}
+
+.stat-card:nth-child(2) {
+  animation: float-2 3.5s ease-in-out infinite, scale-in 0.6s ease-out backwards 0.2s;
+}
+
+.stat-card:nth-child(3) {
+  animation: float-3 4s ease-in-out infinite, scale-in 0.6s ease-out backwards 0.3s;
+}
+
+.stat-card:nth-child(4) {
+  animation: float-4 3.2s ease-in-out infinite, scale-in 0.6s ease-out backwards 0.4s;
+}
+
+@keyframes float-1 {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+}
+
+@keyframes float-2 {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes float-3 {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-18px); }
+}
+
+@keyframes float-4 {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Testimonials - gentle sway animation */
+.testimonial:nth-child(1) {
+  animation: sway-left 4s ease-in-out infinite, slide-in-right 0.8s ease-out backwards 0.2s;
+}
+
+.testimonial:nth-child(2) {
+  animation: sway-right 4.5s ease-in-out infinite, slide-in-right 0.8s ease-out backwards 0.4s;
+}
+
+@keyframes sway-left {
+  0%, 100% { transform: translateX(0px) rotate(0deg); }
+  50% { transform: translateX(-5px) rotate(-0.5deg); }
+}
+
+@keyframes sway-right {
+  0%, 100% { transform: translateX(0px) rotate(0deg); }
+  50% { transform: translateX(5px) rotate(0.5deg); }
+}
+
+/* Stat values - pulse animation */
+.stat-value {
+  animation: pulse-scale 2s ease-in-out infinite;
+}
+
+@keyframes pulse-scale {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* Testimonial avatars - rotate animation */
+.testimonial-avatar {
+  animation: rotate-subtle 6s linear infinite;
+}
+
+@keyframes rotate-subtle {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(2deg); }
+  50% { transform: rotate(0deg); }
+  75% { transform: rotate(-2deg); }
+  100% { transform: rotate(0deg); }
+}
+
+/* CTA section - breathing effect */
+.pocket-cta {
+  animation: breathe 4s ease-in-out infinite, fade-in 1s ease-out;
+}
+
+@keyframes breathe {
+  0%, 100% { transform: scale(1) translateY(0px); }
+  50% { transform: scale(1.01) translateY(-5px); }
+}
+
+/* CTA buttons - bounce */
+.cta-primary {
+  animation: bounce-gentle 2s ease-in-out infinite;
+}
+
+.cta-secondary {
+  animation: bounce-gentle 2s ease-in-out infinite 0.5s;
+}
+
+@keyframes bounce-gentle {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+}
+
+/* Title text - wave effect */
+.pocket-title {
+  animation: fade-up 0.8s ease-out, wave-text 3s ease-in-out infinite 1s;
+}
+
+@keyframes wave-text {
+  0%, 100% { transform: translateY(0px); }
+  25% { transform: translateY(-3px); }
+  75% { transform: translateY(3px); }
+}
+
+/* Social icons - bounce */
+.socials a:nth-child(1) {
+  animation: icon-bounce 2s ease-in-out infinite;
+}
+
+.socials a:nth-child(2) {
+  animation: icon-bounce 2s ease-in-out infinite 0.2s;
+}
+
+.socials a:nth-child(3) {
+  animation: icon-bounce 2s ease-in-out infinite 0.4s;
+}
+
+@keyframes icon-bounce {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+/* Proof title - gentle sway */
+.proof-title {
+  animation: fade-up 0.8s ease-out, title-sway 5s ease-in-out infinite 1s;
+}
+
+@keyframes title-sway {
+  0%, 100% { transform: translateX(0px); }
+  50% { transform: translateX(5px); }
+}
+
+/* Visual elements continuous animations */
+.visual-line {
+  animation: expand-contract 2s ease-in-out infinite;
+}
+
+@keyframes expand-contract {
+  0%, 100% { width: 112px; opacity: 1; }
+  50% { width: 140px; opacity: 0.8; }
+}
+
+.visual-pill {
+  animation: pill-wiggle 3s ease-in-out infinite;
+}
+
+@keyframes pill-wiggle {
+  0%, 100% { transform: translateX(0px); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.visual-block-left {
+  animation: block-float 4s ease-in-out infinite;
+}
+
+@keyframes block-float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(1deg); }
+}
+
+.visual-block-right {
+  animation: block-float-reverse 3.5s ease-in-out infinite;
+}
+
+@keyframes block-float-reverse {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(-1deg); }
+}
+
+/* Header logo - subtle pulse */
+.pocket-logo {
+  animation: logo-pulse 3s ease-in-out infinite;
+}
+
+@keyframes logo-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* Menu items - wave effect */
+.pocket-menu a:nth-child(1) {
+  animation: menu-wave 2s ease-in-out infinite;
+}
+
+.pocket-menu a:nth-child(2) {
+  animation: menu-wave 2s ease-in-out infinite 0.2s;
+}
+
+.pocket-menu a:nth-child(3) {
+  animation: menu-wave 2s ease-in-out infinite 0.4s;
+}
+
+@keyframes menu-wave {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-3px); }
+}
+
+/* Footer columns - floating */
+.footer-col {
+  animation: footer-float 4s ease-in-out infinite;
+}
+
+.footer-col:nth-child(2) { animation-delay: 0.5s; }
+.footer-col:nth-child(3) { animation-delay: 1s; }
+.footer-col:nth-child(4) { animation-delay: 1.5s; }
+
+@keyframes footer-float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+
+/* ==========================================
+   LOGO IMAGE STYLES
+   ========================================== */
+
+.pocket-logo-img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  border-radius: 10px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: logo-pulse 3s ease-in-out infinite;
+}
+
+.pocket-logo-link:hover .pocket-logo-img {
+  transform: rotate(5deg) scale(1.1);
+  box-shadow: 0 8px 24px rgba(102, 95, 240, 0.3);
+}
+
+.footer-logo-img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  border-radius: 10px;
+  animation: footer-float 4s ease-in-out infinite;
+}
+
+/* Adjust page padding for fixed header */
+.pocket-hero {
+  padding-top: 156px !important;
+}
+
+@media (max-width: 560px) {
+  .pocket-logo-img {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .footer-logo-img {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .pocket-hero {
+    padding-top: 108px !important;
+  }
+}
+
+
+/* Footer grid without social icons */
+.footer-grid-simple {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 64px;
+}
+
+@media (max-width: 900px) {
+  .footer-grid-simple {
+    grid-template-columns: 1fr;
+  }
+}

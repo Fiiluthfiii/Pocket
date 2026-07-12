@@ -4,6 +4,8 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { prisma } from '@/lib/prisma';
 import { verifyPassword, hashPassword } from '@/lib/auth';
 
+export const dynamic = 'force-dynamic';
+
 export async function PUT(request) {
   try {
     const session = await getServerSession(authOptions);

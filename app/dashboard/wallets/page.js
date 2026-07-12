@@ -3,6 +3,8 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { redirect } from 'next/navigation';
 import WalletsClient from '@/components/wallets/WalletsClient';
 
+export const dynamic = 'force-dynamic';
+
 export default async function WalletsPage() {
   const session = await getServerSession(authOptions);
 

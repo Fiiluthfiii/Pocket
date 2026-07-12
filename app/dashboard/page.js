@@ -4,6 +4,8 @@ import { redirect } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 import DashboardClient from '@/components/dashboard/DashboardClient';
 
+export const dynamic = 'force-dynamic';
+
 async function getDashboardData(userId) {
   const now = new Date();
   const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);

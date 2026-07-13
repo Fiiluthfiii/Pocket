@@ -224,7 +224,7 @@ export default function WalletsClient({ userId }) {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Total Saldo Card */}
-        <div className="lg:col-span-2 bg-gradient-to-br from-[#6366F1] via-[#7C3AED] to-[#8B5CF6] rounded-3xl p-8 text-white relative overflow-hidden shadow-2xl">
+        <div className="lg:col-span-2 bg-gradient-to-br from-[#6366F1] via-[#7C3AED] to-[#8B5CF6] rounded-3xl p-6 text-white relative overflow-hidden shadow-2xl">
           {/* Animated decorative circles */}
           <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full animate-pulse pointer-events-none"></div>
           <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-white/10 rounded-full animate-pulse pointer-events-none" style={{ animationDelay: '0.5s' }}></div>
@@ -238,11 +238,11 @@ export default function WalletsClient({ userId }) {
           <div className="absolute top-32 left-40 w-1 h-1 bg-white rounded-full animate-pulse pointer-events-none" style={{ animationDelay: '0.9s' }}></div>
           
           {/* Button Tambah Dompet */}
-          <div className="absolute top-6 right-6 z-20">
+          <div className="absolute top-4 right-4 z-20">
             <button
               onClick={handleAddWallet}
               type="button"
-              className="bg-white/20 backdrop-blur-sm text-white px-5 py-2.5 rounded-xl font-bold hover:bg-white/30 hover:scale-105 transition-all flex items-center gap-2 border border-white/30 cursor-pointer"
+              className="bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-xl font-bold hover:bg-white/30 hover:scale-105 transition-all flex items-center gap-2 border border-white/30 cursor-pointer text-sm"
             >
               <PlusCircle className="w-4 h-4" />
               {text.addWallet}
@@ -250,8 +250,8 @@ export default function WalletsClient({ userId }) {
           </div>
 
           <div className="relative z-10">
-            <p className="text-white/80 text-sm font-bold uppercase tracking-wider mb-2">{text.totalBalance}</p>
-            <h2 className="text-4xl font-black mb-8 drop-shadow-lg">
+            <p className="text-white/80 text-xs font-bold uppercase tracking-wider mb-1">{text.totalBalance}</p>
+            <h2 className="text-3xl font-black mb-4 drop-shadow-lg">
               {formatCurrency(totalBalance)}
             </h2>
           </div>

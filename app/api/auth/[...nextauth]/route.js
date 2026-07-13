@@ -50,35 +50,41 @@ export const authOptions = {
   callbacks: {
     async signIn({ user, account }) {
       if (account.provider === 'google') {
-        // Check if user exists in database
-        const existingUser = await prisma.user.findUnique({
-          where: { email: user.email },
-        });
-
-        if (!existingUser) {
-          // Create new user for Google sign-in
-          const newUser = await prisma.user.create({
-            data: {
-              name: user.name,
-              email: user.email,
-              password: '', // No password for OAuth users
-              avatarUrl: user.image,
-            },
+        try {
+          // Check if user exists in database
+          const existingUser = await prisma.user.findUnique({
+            where: { email: user.email },
           });
 
-          // Create default wallet
-          await prisma.wallet.create({
-            data: {
-              userId: newUser.id,
-              name: 'Dompet Utama',
-              type: 'cash',
-              balance: 0,
-            },
-          });
+          if (!existingUser) {
+            // Create new user for Google sign-in
+            const newUser = await prisma.user.create({
+              data: {
+                name: user.name,
+                email: user.email,
+                password: '', // No password for OAuth users
+                avatarUrl: user.image,
+              },
+            });
 
-          user.id = newUser.id;
-        } else {
-          user.id = existingUser.id;
+            // Create default wallet
+            await prisma.wallet.create({
+              data: {
+                userId: newUser.id,
+                name: 'Dompet Utama',
+                type: 'cash',
+                balance: 0,
+              },
+            });
+
+            user.id = newUser.id;
+          } else {
+            user.id = existingUser.id;
+          }
+        } catch (error) {
+          console.error('Error in signIn callback:', error);
+          // Return false to show error page instead of crashing
+          return false;
         }
       }
       return true;

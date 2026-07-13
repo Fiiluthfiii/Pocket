@@ -9,13 +9,33 @@ export default function SavingGoalModal({ savingGoal, onClose, onSuccess }) {
     targetAmount: '',
     savedAmount: '',
     targetDate: '',
+    walletId: '',
   });
   const [displayTargetAmount, setDisplayTargetAmount] = useState('');
   const [displaySavedAmount, setDisplaySavedAmount] = useState('');
+  const [wallets, setWallets] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   useEffect(() => {
+    // Fetch wallets
+    const fetchWallets = async () => {
+      try {
+        const response = await fetch('/api/wallets');
+        const data = await response.json();
+        setWallets(data);
+        
+        // Auto-select first wallet if creating new
+        if (!savingGoal && data.length > 0) {
+          setFormData(prev => ({ ...prev, walletId: data[0].id }));
+        }
+      } catch (error) {
+        console.error('Error fetching wallets:', error);
+      }
+    };
+    
+    fetchWallets();
+    
     if (savingGoal) {
       const targetAmt = Number(savingGoal.targetAmount).toString();
       const savedAmt = Number(savingGoal.savedAmount).toString();
@@ -24,6 +44,7 @@ export default function SavingGoalModal({ savingGoal, onClose, onSuccess }) {
         targetAmount: targetAmt,
         savedAmount: savedAmt,
         targetDate: new Date(savingGoal.targetDate).toISOString().split('T')[0],
+        walletId: savingGoal.walletId || '',
       });
       setDisplayTargetAmount(formatNumber(targetAmt));
       setDisplaySavedAmount(formatNumber(savedAmt));
@@ -132,6 +153,28 @@ export default function SavingGoalModal({ savingGoal, onClose, onSuccess }) {
               onChange={handleTargetAmountChange}
               required
             />
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold text-slate-700 mb-2">
+              Pilih Dompet
+            </label>
+            <select
+              className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6366F1] focus:border-transparent"
+              value={formData.walletId}
+              onChange={(e) => setFormData({ ...formData, walletId: e.target.value })}
+              required
+            >
+              <option value="">Pilih dompet untuk menyimpan</option>
+              {wallets.map((wallet) => (
+                <option key={wallet.id} value={wallet.id}>
+                  {wallet.name} - Rp {Number(wallet.balance).toLocaleString('id-ID')}
+                </option>
+              ))}
+            </select>
+            <p className="mt-1 text-xs text-slate-500">
+              Uang yang terkumpul akan diambil dari dompet yang dipilih
+            </p>
           </div>
 
           <div>

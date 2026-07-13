@@ -222,60 +222,59 @@ export default function WalletsClient({ userId }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Total Saldo Card */}
-        <div className="lg:col-span-2 bg-gradient-to-br from-[#6366F1] via-[#7C3AED] to-[#8B5CF6] rounded-3xl p-6 text-white relative overflow-hidden shadow-2xl">
-          {/* Animated decorative circles */}
-          <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full animate-pulse pointer-events-none"></div>
-          <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-white/10 rounded-full animate-pulse pointer-events-none" style={{ animationDelay: '0.5s' }}></div>
-          <div className="absolute top-1/2 left-1/4 w-20 h-20 bg-white/5 rounded-full pointer-events-none"></div>
-          <div className="absolute bottom-20 right-32 w-24 h-24 bg-white/5 rounded-full pointer-events-none"></div>
-          
-          {/* Sparkle effects */}
-          <div className="absolute top-20 right-40 w-2 h-2 bg-white rounded-full animate-pulse pointer-events-none"></div>
-          <div className="absolute top-40 left-20 w-1.5 h-1.5 bg-white rounded-full animate-pulse pointer-events-none" style={{ animationDelay: '0.3s' }}></div>
-          <div className="absolute bottom-32 right-20 w-2.5 h-2.5 bg-white rounded-full animate-pulse pointer-events-none" style={{ animationDelay: '0.6s' }}></div>
-          <div className="absolute top-32 left-40 w-1 h-1 bg-white rounded-full animate-pulse pointer-events-none" style={{ animationDelay: '0.9s' }}></div>
-          
-          {/* Button Tambah Dompet */}
-          <div className="absolute top-4 right-4 z-20">
-            <button
-              onClick={handleAddWallet}
-              type="button"
-              className="bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-xl font-bold hover:bg-white/30 hover:scale-105 transition-all flex items-center gap-2 border border-white/30 cursor-pointer text-sm"
-            >
-              <PlusCircle className="w-4 h-4" />
-              {text.addWallet}
-            </button>
-          </div>
-
-          <div className="relative z-10">
-            <p className="text-white/80 text-xs font-bold uppercase tracking-wider mb-1">{text.totalBalance}</p>
-            <h2 className="text-3xl font-black mb-4 drop-shadow-lg">
-              {formatCurrency(totalBalance)}
-            </h2>
-          </div>
+      {/* Total Saldo Card - Full Width */}
+      <div className="bg-gradient-to-br from-[#6366F1] via-[#7C3AED] to-[#8B5CF6] rounded-3xl p-6 text-white relative overflow-hidden shadow-2xl">
+        {/* Animated decorative circles */}
+        <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full animate-pulse pointer-events-none"></div>
+        <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-white/10 rounded-full animate-pulse pointer-events-none" style={{ animationDelay: '0.5s' }}></div>
+        <div className="absolute top-1/2 left-1/4 w-20 h-20 bg-white/5 rounded-full pointer-events-none"></div>
+        <div className="absolute bottom-20 right-32 w-24 h-24 bg-white/5 rounded-full pointer-events-none"></div>
+        
+        {/* Sparkle effects */}
+        <div className="absolute top-20 right-40 w-2 h-2 bg-white rounded-full animate-pulse pointer-events-none"></div>
+        <div className="absolute top-40 left-20 w-1.5 h-1.5 bg-white rounded-full animate-pulse pointer-events-none" style={{ animationDelay: '0.3s' }}></div>
+        <div className="absolute bottom-32 right-20 w-2.5 h-2.5 bg-white rounded-full animate-pulse pointer-events-none" style={{ animationDelay: '0.6s' }}></div>
+        <div className="absolute top-32 left-40 w-1 h-1 bg-white rounded-full animate-pulse pointer-events-none" style={{ animationDelay: '0.9s' }}></div>
+        
+        {/* Button Tambah Dompet */}
+        <div className="absolute top-4 right-4 z-20">
+          <button
+            onClick={handleAddWallet}
+            type="button"
+            className="bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-xl font-bold hover:bg-white/30 hover:scale-105 transition-all flex items-center gap-2 border border-white/30 cursor-pointer text-sm"
+          >
+            <PlusCircle className="w-4 h-4" />
+            {text.addWallet}
+          </button>
         </div>
 
-        {/* Alokasi Institusi */}
-        <div className="bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 rounded-3xl p-6 border-2 border-purple-200 shadow-xl relative overflow-hidden">
-          {/* Decorative circles dengan animasi berbeda */}
-          <div className="absolute -top-8 -right-8 w-32 h-32 bg-gradient-to-br from-purple-300/40 to-pink-300/40 rounded-full blur-2xl animate-pulse pointer-events-none"></div>
-          <div className="absolute -bottom-8 -left-8 w-28 h-28 bg-gradient-to-br from-blue-300/40 to-purple-300/40 rounded-full blur-2xl pointer-events-none"></div>
-          <div className="absolute top-1/2 right-1/4 w-20 h-20 bg-gradient-to-br from-indigo-300/30 to-purple-300/30 rounded-full blur-xl pointer-events-none"></div>
-          
-          {/* Sparkle effects */}
-          <div className="absolute top-12 right-16 w-2 h-2 bg-yellow-400 rounded-full animate-pulse pointer-events-none"></div>
-          <div className="absolute bottom-20 left-12 w-1.5 h-1.5 bg-pink-400 rounded-full animate-pulse pointer-events-none" style={{ animationDelay: '0.3s' }}></div>
-          <div className="absolute top-20 left-20 w-1 h-1 bg-purple-400 rounded-full animate-pulse pointer-events-none" style={{ animationDelay: '0.6s' }}></div>
-          <div className="absolute bottom-12 right-20 w-2.5 h-2.5 bg-indigo-400 rounded-full animate-pulse pointer-events-none" style={{ animationDelay: '0.9s' }}></div>
-          
-          <div className="relative z-10">
-            <h3 className="text-xl font-black text-slate-900 mb-1">{text.institutionAllocation}</h3>
-            <p className="text-sm text-slate-600 mb-6 font-medium">{text.allocationSubtitle}</p>
+        <div className="relative z-10">
+          <p className="text-white/80 text-xs font-bold uppercase tracking-wider mb-1">{text.totalBalance}</p>
+          <h2 className="text-3xl font-black mb-4 drop-shadow-lg">
+            {formatCurrency(totalBalance)}
+          </h2>
+        </div>
+      </div>
 
-          {chartData.length > 0 ? (
-            <div>
+      {/* Alokasi Institusi - Separate */}
+      <div className="bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 rounded-3xl p-6 border-2 border-purple-200 shadow-xl relative overflow-hidden">
+        {/* Decorative circles dengan animasi berbeda */}
+        <div className="absolute -top-8 -right-8 w-32 h-32 bg-gradient-to-br from-purple-300/40 to-pink-300/40 rounded-full blur-2xl animate-pulse pointer-events-none"></div>
+        <div className="absolute -bottom-8 -left-8 w-28 h-28 bg-gradient-to-br from-blue-300/40 to-purple-300/40 rounded-full blur-2xl pointer-events-none"></div>
+        <div className="absolute top-1/2 right-1/4 w-20 h-20 bg-gradient-to-br from-indigo-300/30 to-purple-300/30 rounded-full blur-xl pointer-events-none"></div>
+        
+        {/* Sparkle effects */}
+        <div className="absolute top-12 right-16 w-2 h-2 bg-yellow-400 rounded-full animate-pulse pointer-events-none"></div>
+        <div className="absolute bottom-20 left-12 w-1.5 h-1.5 bg-pink-400 rounded-full animate-pulse pointer-events-none" style={{ animationDelay: '0.3s' }}></div>
+        <div className="absolute top-20 left-20 w-1 h-1 bg-purple-400 rounded-full animate-pulse pointer-events-none" style={{ animationDelay: '0.6s' }}></div>
+        <div className="absolute bottom-12 right-20 w-2.5 h-2.5 bg-indigo-400 rounded-full animate-pulse pointer-events-none" style={{ animationDelay: '0.9s' }}></div>
+        
+        <div className="relative z-10">
+          <h3 className="text-xl font-black text-slate-900 mb-1">{text.institutionAllocation}</h3>
+          <p className="text-sm text-slate-600 mb-6 font-medium">{text.allocationSubtitle}</p>
+
+        {chartData.length > 0 ? (
+          <div>
               {/* Donut Chart with glow effect */}
               <div className="relative w-40 h-40 mx-auto mb-6">
                 {/* Glow effect behind chart */}
@@ -345,7 +344,6 @@ export default function WalletsClient({ userId }) {
               <p className="relative z-10 font-semibold">{text.noData}</p>
             </div>
           )}
-          </div>
         </div>
       </div>
 

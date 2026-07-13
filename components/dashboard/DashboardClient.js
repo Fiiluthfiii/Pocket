@@ -75,6 +75,12 @@ export default function DashboardClient({ data }) {
   
   const { totalBalance, income, expenses, transactions, categoryExpenses, monthlyData } = data;
   
+  // Debug log
+  console.log('DashboardClient received data:');
+  console.log('  Income:', income);
+  console.log('  Expenses:', expenses);
+  console.log('  Total Balance:', totalBalance);
+  
   const [searchQuery, setSearchQuery] = useState('');
 
   const formatCurrencyLocal = (amount) => {

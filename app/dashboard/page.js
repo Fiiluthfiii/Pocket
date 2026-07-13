@@ -8,12 +8,25 @@ export const dynamic = 'force-dynamic';
 
 async function getDashboardData(userId) {
   const now = new Date();
-  const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-  const lastDayOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+  
+  // Use UTC dates to avoid timezone issues
+  const currentYear = now.getFullYear();
+  const currentMonth = now.getMonth(); // 0-indexed
+  
+  // First day of month at 00:00:00 local time
+  const firstDayOfMonth = new Date(currentYear, currentMonth, 1, 0, 0, 0, 0);
+  
+  // Last day of month at 23:59:59 local time
+  const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0, 23, 59, 59, 999);
+  
+  console.log('Dashboard date range:');
+  console.log('  First day:', firstDayOfMonth.toISOString());
+  console.log('  Last day:', lastDayOfMonth.toISOString());
+  console.log('  Current:', now.toISOString());
   
   // Previous month dates
-  const firstDayOfPrevMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-  const lastDayOfPrevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+  const firstDayOfPrevMonth = new Date(currentYear, currentMonth - 1, 1, 0, 0, 0, 0);
+  const lastDayOfPrevMonth = new Date(currentYear, currentMonth, 0, 23, 59, 59, 999);
 
   // Get all wallets
   const wallets = await prisma.wallet.findMany({
@@ -39,7 +52,12 @@ async function getDashboardData(userId) {
     orderBy: {
       date: 'desc',
     },
-    take: 10,
+  });
+
+  console.log('Transactions found:', transactions.length);
+  console.log('Transaction details:');
+  transactions.forEach(t => {
+    console.log(`  ${t.date.toISOString()} | ${t.type} | Rp ${t.amount} | ${t.note || '-'}`);
   });
 
   // Calculate income and expenses for current month
@@ -50,6 +68,14 @@ async function getDashboardData(userId) {
   const expenses = transactions
     .filter(t => t.type === 'expense')
     .reduce((sum, t) => sum + Number(t.amount), 0);
+
+  console.log('Income:', income);
+  console.log('Expenses:', expenses);
+  console.log('Income transactions:', transactions.filter(t => t.type === 'income').length);
+  console.log('Expense transactions:', transactions.filter(t => t.type === 'expense').length);
+  
+  // Get only first 10 for display
+  const recentTransactions = transactions.slice(0, 10);
 
   // Get previous month transactions for comparison
   const prevMonthTransactions = await prisma.transaction.findMany({
@@ -177,26 +203,57 @@ async function getDashboardData(userId) {
       });
 
       return {
-        ...budget,
+        id: budget.id,
+        categoryId: budget.categoryId,
+        category: {
+          id: budget.category.id,
+          name: budget.category.name,
+          color: budget.category.color,
+        },
         spent: Number(spent._sum.amount || 0),
         amount: Number(budget.amount),
+        month: budget.month,
+        year: budget.year,
       };
     })
   );
 
+  console.log('Returning data with income:', Number(income), 'expenses:', Number(expenses));
+
   return {
-    totalBalance,
-    income,
-    expenses,
-    prevMonthIncome,
-    prevMonthExpenses,
-    prevMonthBalance: totalBalance, // For simplicity, using current balance
-    transactions: transactions.map(t => ({
-      ...t,
+    totalBalance: Number(totalBalance),
+    income: Number(income),
+    expenses: Number(expenses),
+    prevMonthIncome: Number(prevMonthIncome),
+    prevMonthExpenses: Number(prevMonthExpenses),
+    prevMonthBalance: Number(totalBalance),
+    transactions: recentTransactions.map(t => ({
+      id: t.id,
+      type: t.type,
       amount: Number(t.amount),
+      note: t.note,
+      date: t.date.toISOString(),
+      category: {
+        id: t.category.id,
+        name: t.category.name,
+        color: t.category.color,
+        icon: t.category.icon,
+      },
+      wallet: {
+        id: t.wallet.id,
+        name: t.wallet.name,
+      },
     })),
-    categoryExpenses,
-    monthlyData,
+    categoryExpenses: categoryExpenses.map(ce => ({
+      name: ce.name,
+      value: Number(ce.value),
+      color: ce.color,
+    })),
+    monthlyData: monthlyData.map(md => ({
+      month: md.month,
+      income: Number(md.income),
+      expense: Number(md.expense),
+    })),
     budgets: budgetsWithSpent,
   };
 }

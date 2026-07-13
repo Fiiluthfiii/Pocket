@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { Plus, Search, Calendar, UtensilsCrossed, Car, ShoppingBag, TrendingDown, ChevronRight, Edit, Trash2, PiggyBank } from 'lucide-react';
 import { startOfMonth, endOfMonth, subMonths } from 'date-fns';
 import BudgetModal from './BudgetModal';
@@ -91,6 +92,7 @@ const translations = {
 };
 
 export default function BudgetClient({ userId }) {
+  const router = useRouter();
   const { language, currency } = usePreferences();
   const t = (key) => translations[language]?.[key] || translations['id'][key] || key;
   
@@ -729,7 +731,8 @@ export default function BudgetClient({ userId }) {
           return (
             <div
               key={goal.id}
-              className={`bg-gradient-to-br ${colorScheme.cardBg} rounded-3xl overflow-hidden border-2 ${colorScheme.border} hover:shadow-2xl transition-all duration-300 relative group hover:scale-[1.02]`}
+              onClick={() => router.push(`/dashboard/budget/${goal.id}`)}
+              className={`bg-gradient-to-br ${colorScheme.cardBg} rounded-3xl overflow-hidden border-2 ${colorScheme.border} hover:shadow-2xl transition-all duration-300 relative group hover:scale-[1.02] cursor-pointer`}
             >
               {/* Animated decorative circles - 4 circles dengan animasi berbeda */}
               <div className={`absolute -top-16 -right-16 w-40 h-40 bg-gradient-to-br ${colorScheme.glow} rounded-full opacity-15 ${animation.circle1}`}></div>

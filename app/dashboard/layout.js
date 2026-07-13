@@ -47,6 +47,7 @@ export default function DashboardLayout({ children }) {
   const navigation = [
     { name: translate('nav.dashboard', language), href: '/dashboard', icon: Home },
     { name: translate('nav.transactions', language), href: '/dashboard/transactions', icon: ArrowLeftRight },
+    { name: translate('nav.wallets', language), href: '/dashboard/wallets', icon: Wallet },
     { name: translate('nav.categories', language), href: '/dashboard/categories', icon: FolderOpen },
     { name: translate('nav.budget', language), href: '/dashboard/budget', icon: PiggyBank },
     { name: translate('nav.reports', language), href: '/dashboard/reports', icon: BarChart3 },

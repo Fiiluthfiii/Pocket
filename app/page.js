@@ -65,6 +65,11 @@ const landingStyles = `
     justify-content: space-between;
   }
   .pocket-logo-link { display: flex; align-items: center; text-decoration: none; }
+  .pocket-logo-link img {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+  }
   .pocket-logo {
     position: relative;
     width: 44px;
@@ -76,6 +81,11 @@ const landingStyles = `
     box-shadow: 0 12px 24px rgba(24, 37, 98, 0.22);
   }
   .pocket-logo.is-small { width: 32px; height: 32px; border-radius: 9px; }
+  .footer-logo-img {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+  }
   .pocket-logo-bars {
     position: absolute;
     left: 8px;
@@ -145,13 +155,13 @@ const landingStyles = `
     box-shadow: 0 8px 18px rgba(90, 79, 229, 0.38);
   }
   .pocket-hero {
-    min-height: 665px;
+    min-height: 600px;
     display: grid;
     grid-template-columns: 0.97fr 1.03fr;
     align-items: center;
-    gap: 36px;
-    padding-top: 84px;
-    padding-bottom: 76px;
+    gap: 48px;
+    padding-top: 120px;
+    padding-bottom: 80px;
   }
   .pocket-badge {
     display: inline-flex;
@@ -326,34 +336,173 @@ const landingStyles = `
   .footer-links a { color: #676878; font-size: 16px; font-weight: 650; text-decoration: underline; text-underline-offset: 2px; }
   .copyright { margin-top: 72px; border-top: 1px solid #e9e3f6; padding-top: 36px; text-align: center; color: #77798c; font-size: 14px; font-weight: 900; }
   @media (max-width: 900px) {
-    .pocket-shell { width: min(100% - 28px, 720px); }
+    .pocket-shell { width: min(100% - 32px, 720px); }
     .pocket-menu { display: none; }
-    .pocket-signup { min-width: 96px; padding: 0 20px; }
-    .pocket-hero { grid-template-columns: 1fr; padding-top: 56px; }
-    .pocket-title { font-size: clamp(44px, 10vw, 58px); }
-    .pocket-visual { margin: 0 auto; height: 440px; transform: scale(0.88); transform-origin: top center; }
-    .proof-grid, .footer-grid { grid-template-columns: 1fr; }
-    .proof-title { font-size: 30px; }
+    .pocket-logo-link img { width: 38px; height: 38px; }
+    .pocket-signup { min-width: 96px; padding: 0 20px; height: 42px; }
+    .pocket-hero { 
+      grid-template-columns: 1fr; 
+      padding-top: 100px; 
+      padding-bottom: 64px;
+      gap: 48px;
+    }
+    .pocket-title { 
+      font-size: clamp(36px, 7vw, 52px); 
+      line-height: 1.1;
+      max-width: 100%;
+    }
+    .pocket-copy { 
+      font-size: 17px; 
+      margin-top: 24px;
+      max-width: 100%;
+    }
+    .pocket-hero-actions { 
+      margin-top: 32px;
+      flex-direction: column;
+      width: 100%;
+    }
+    .pocket-primary, .pocket-secondary { 
+      width: 100%; 
+      min-width: 0;
+      justify-content: center;
+    }
+    .pocket-visual { 
+      margin: 0 auto; 
+      height: 400px; 
+      transform: scale(0.85); 
+      transform-origin: top center; 
+    }
+    .proof-grid { 
+      grid-template-columns: 1fr; 
+      gap: 48px;
+    }
+    .stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    .proof-title { 
+      font-size: 28px; 
+      margin-bottom: 32px;
+    }
+    .footer-grid { 
+      grid-template-columns: 1fr; 
+      gap: 40px;
+    }
+    .footer-copy { max-width: 100%; }
   }
   @media (max-width: 560px) {
-    .pocket-shell { width: min(100% - 24px, 420px); }
-    .pocket-header, .pocket-nav { height: 64px; }
-    .pocket-logo { width: 36px; height: 36px; }
-    .pocket-actions { gap: 10px; }
-    .pocket-login { font-size: 14px; }
-    .pocket-signup { height: 40px; min-width: 82px; border-radius: 16px; font-size: 14px; }
-    .pocket-hero { padding-top: 44px; padding-bottom: 40px; }
-    .pocket-badge { margin-bottom: 26px; font-size: 12px; }
-    .pocket-title { font-size: 42px; }
-    .pocket-copy { font-size: 16px; }
-    .pocket-primary, .pocket-secondary { width: 100%; min-width: 0; }
-    .pocket-visual { height: 390px; transform: scale(0.74); width: 540px; margin-left: 50%; translate: -50% 0; }
-    .stats-grid { grid-template-columns: 1fr; gap: 18px; }
-    .pocket-proof { padding: 54px 0; }
-    .pocket-cta { border-radius: 30px; padding: 56px 22px; }
-    .pocket-cta h2 { font-size: 29px; }
-    .pocket-cta p { font-size: 16px; }
-    .cta-primary, .cta-secondary { width: 100%; min-width: 0; }
+    .pocket-shell { width: min(100% - 24px, 480px); }
+    .pocket-header, .pocket-nav { height: 60px; }
+    .pocket-logo-link img { width: 32px; height: 32px; }
+    .pocket-actions { gap: 12px; }
+    .pocket-login { font-size: 13px; font-weight: 800; }
+    .pocket-signup { 
+      height: 38px; 
+      min-width: 80px; 
+      border-radius: 14px; 
+      font-size: 13px;
+      padding: 0 16px;
+    }
+    .pocket-hero { 
+      padding-top: 80px; 
+      padding-bottom: 48px;
+      gap: 32px;
+    }
+    .pocket-badge { 
+      margin-bottom: 24px; 
+      font-size: 12px; 
+      padding: 6px 12px;
+    }
+    .pocket-title { 
+      font-size: clamp(32px, 9vw, 42px);
+      line-height: 1.1;
+    }
+    .pocket-copy { 
+      font-size: 15px;
+      line-height: 1.5;
+      margin-top: 20px;
+    }
+    .pocket-hero-actions {
+      margin-top: 28px;
+    }
+    .pocket-primary, .pocket-secondary { 
+      width: 100%; 
+      min-width: 0;
+      height: 56px;
+    }
+    .pocket-visual { 
+      height: 340px; 
+      transform: scale(0.68); 
+      width: 100%;
+      max-width: 540px;
+    }
+    .balance-card {
+      width: 160px;
+      padding: 20px;
+    }
+    .balance-value { font-size: 22px; }
+    .income-card {
+      width: 170px;
+      padding: 18px;
+    }
+    .income-value { font-size: 22px; }
+    .stats-grid { 
+      grid-template-columns: 1fr; 
+      gap: 16px; 
+    }
+    .stat-card {
+      min-height: 90px;
+      padding: 20px 24px;
+    }
+    .pocket-proof { padding: 48px 0; }
+    .proof-title { 
+      font-size: 24px;
+      margin-bottom: 28px;
+    }
+    .testimonial { padding: 24px 28px; }
+    .testimonial-quote { font-size: 15px; }
+    .pocket-cta-section { padding: 48px 0; }
+    .pocket-cta { 
+      border-radius: 28px; 
+      padding: 48px 24px; 
+    }
+    .pocket-cta h2 { 
+      font-size: 26px;
+      line-height: 1.25;
+    }
+    .pocket-cta p { 
+      font-size: 15px;
+      margin-top: 20px;
+    }
+    .cta-actions {
+      margin-top: 32px;
+      flex-direction: column;
+      width: 100%;
+    }
+    .cta-primary, .cta-secondary { 
+      width: 100%; 
+      min-width: 0;
+      height: 56px;
+    }
+    .cta-note { 
+      margin-top: 24px !important;
+      font-size: 11px !important;
+    }
+    .footer-content { 
+      padding-top: 56px; 
+      padding-bottom: 36px; 
+    }
+    .footer-grid { gap: 32px; }
+    .footer-copy { 
+      margin-top: 20px;
+      font-size: 15px;
+    }
+    .socials { margin-top: 24px; }
+    .copyright { 
+      margin-top: 56px; 
+      padding-top: 28px;
+      font-size: 13px;
+    }
   }
 `;
 
@@ -478,9 +627,9 @@ export default function LandingPage() {
             </Link>
 
             <div className="pocket-menu">
-              <Link href="#features" className="active">Features</Link>
-              <Link href="#about">About</Link>
-              <Link href="#pricing">Pricing</Link>
+              <a href="#features" className="active">Features</a>
+              <a href="#about">About</a>
+              <a href="#pricing">Pricing</a>
             </div>
 
             <div className="pocket-actions">
@@ -496,6 +645,13 @@ export default function LandingPage() {
             <p className="pocket-copy">
               Platform finansial tercanggih untuk melacak pengeluaran, mengatur tabungan, dan mengoptimalkan aset dalam satu genggaman premium.
             </p>
+            <div className="pocket-hero-actions">
+              <Link href="/register" className="pocket-primary">
+                Mulai Gratis
+                <ArrowRight size={20} />
+              </Link>
+              <Link href="#about" className="pocket-secondary">Pelajari Lebih Lanjut</Link>
+            </div>
           </div>
 
           <HeroIllustration />
@@ -529,29 +685,44 @@ export default function LandingPage() {
 
         <footer className="pocket-footer">
           <div className="pocket-shell footer-content">
-            <div className="footer-grid-simple">
+            <div className="footer-grid">
               <div>
-                <img 
-                  src="/logo.png" 
-                  alt="Pocket Logo" 
-                  className="footer-logo-img"
-                />
+                <Link href="/" className="pocket-logo-link">
+                  <img 
+                    src="/logo.png" 
+                    alt="Pocket Logo" 
+                    className="footer-logo-img"
+                  />
+                </Link>
                 <p className="footer-copy">
                   Platform keuangan premium yang membantu Anda mengelola, menabung, dan menginvestasikan masa depan Anda.
                 </p>
+                <div className="socials">
+                  <a href="#" aria-label="Twitter">
+                    <Network size={16} />
+                  </a>
+                  <a href="#" aria-label="Email">
+                    <AtSign size={16} />
+                  </a>
+                  <a href="#" aria-label="Help">
+                    <CircleHelp size={16} />
+                  </a>
+                </div>
               </div>
 
               {footerColumns.map((column) => (
                 <div className="footer-col" key={column.title}>
                   <h3>{column.title}</h3>
                   <div className="footer-links">
-                    {column.links.map((item) => <Link key={item} href="/">{item}</Link>)}
+                    {column.links.map((item) => (
+                      <a key={item} href="#">{item}</a>
+                    ))}
                   </div>
                 </div>
               ))}
             </div>
 
-            <div className="copyright">&copy; 2024 Pocket Finance. All rights reserved.</div>
+            <div className="copyright">&copy; 2026 Pocket Finance. All rights reserved.</div>
           </div>
         </footer>
       </main>

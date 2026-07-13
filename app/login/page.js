@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Mail, Lock, Eye, EyeOff, AlertCircle } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, AlertCircle, Sparkles, TrendingUp, Wallet, PieChart } from 'lucide-react';
+import '../login-animations.css';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -15,6 +16,11 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -44,48 +50,79 @@ export default function LoginPage() {
 
 
   return (
-    <div className="min-h-screen bg-slate-50 flex">
-      {/* Left Side - Purple Gradient with Balance Card */}
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 flex overflow-hidden">
+      {/* Animated Background Elements */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className={`absolute top-20 left-20 w-96 h-96 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 ${mounted ? 'animate-blob' : ''}`}></div>
+        <div className={`absolute top-40 right-20 w-96 h-96 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 ${mounted ? 'animate-blob animation-delay-2000' : ''}`}></div>
+        <div className={`absolute -bottom-20 left-1/2 w-96 h-96 bg-pink-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 ${mounted ? 'animate-blob animation-delay-4000' : ''}`}></div>
+      </div>
+
+      {/* Left Side - Enhanced Purple Gradient */}
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-[#6366F1] via-[#7C3AED] to-[#8B5CF6] p-12 items-center justify-center relative overflow-hidden">
-        {/* Decorative Circles */}
-        <div className="absolute top-20 left-20 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-20 w-80 h-80 bg-white/5 rounded-full blur-3xl"></div>
+        {/* Animated Decorative Elements */}
+        <div className="absolute top-0 left-0 w-full h-full">
+          <div className={`absolute top-20 left-20 w-64 h-64 bg-white/5 rounded-full blur-3xl ${mounted ? 'animate-pulse' : ''}`}></div>
+          <div className={`absolute bottom-20 right-20 w-80 h-80 bg-white/5 rounded-full blur-3xl ${mounted ? 'animate-pulse animation-delay-1000' : ''}`}></div>
+          <div className={`absolute top-1/2 left-1/2 w-40 h-40 bg-white/10 rounded-full blur-2xl ${mounted ? 'animate-rotate-slow' : ''}`}></div>
+        </div>
+
+        {/* Floating Icons */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className={`absolute top-1/4 left-1/4 ${mounted ? 'animate-float' : ''}`}>
+            <Wallet className="w-12 h-12 text-white/20" />
+          </div>
+          <div className={`absolute top-1/3 right-1/4 ${mounted ? 'animate-float animation-delay-1000' : ''}`}>
+            <TrendingUp className="w-10 h-10 text-white/20" />
+          </div>
+          <div className={`absolute bottom-1/4 left-1/3 ${mounted ? 'animate-float animation-delay-2000' : ''}`}>
+            <PieChart className="w-11 h-11 text-white/20" />
+          </div>
+        </div>
         
-        <div className="relative z-10 max-w-md w-full">
-          <h1 className="text-5xl font-bold text-white mb-8 leading-tight">
+        <div className={`relative z-10 max-w-md w-full ${mounted ? 'animate-fade-in-up' : 'opacity-0'}`}>
+          <h1 className={`text-5xl font-bold text-white mb-6 leading-tight ${mounted ? 'animate-text-shimmer' : ''}`}>
             Kontrol Penuh<br />Atas<br />Keuanganmu
           </h1>
 
-          {/* Balance Card */}
-          <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 border border-white/20 shadow-2xl">
+          <p className={`text-white/80 text-lg mb-12 ${mounted ? 'animate-fade-in animation-delay-300' : 'opacity-0'}`}>
+            Kelola keuangan dengan smart, pantau pengeluaran real-time, dan raih tujuan finansialmu.
+          </p>
+
+          {/* Enhanced Balance Card */}
+          <div className={`bg-white/10 backdrop-blur-xl rounded-3xl p-8 border border-white/20 shadow-2xl ${mounted ? 'animate-pulse-glow' : ''}`}>
             <div className="mb-6">
-              <p className="text-white/70 text-sm mb-2">TOTAL SALDO</p>
-              <h2 className="text-4xl font-bold text-white">Rp 42.500.000</h2>
+              <p className={`text-white/70 text-sm mb-2 uppercase tracking-wider ${mounted ? 'animate-fade-in animation-delay-500' : 'opacity-0'}`}>Total Saldo</p>
+              <h2 className={`text-4xl font-bold text-white mb-1 ${mounted ? 'animate-bounce-gentle animation-delay-700' : 'opacity-0'}`}>Rp 42.500.000</h2>
+              <p className={`text-emerald-300 text-sm flex items-center gap-1 ${mounted ? 'animate-fade-in animation-delay-900' : 'opacity-0'}`}>
+                <TrendingUp className={`w-4 h-4 ${mounted ? 'animate-bounce-gentle' : ''}`} />
+                +8.5% bulan ini
+              </p>
             </div>
 
-            {/* Chart Area */}
+            {/* Animated Chart */}
             <div className="bg-white/5 rounded-2xl p-6 mb-6 h-32 flex items-end justify-center gap-3">
-              <div className="w-12 h-16 bg-emerald-400 rounded-full opacity-80"></div>
-              <div className="w-12 h-24 bg-emerald-400 rounded-full"></div>
-              <div className="w-12 h-12 bg-rose-400 rounded-full opacity-80"></div>
-              <div className="w-12 h-20 bg-emerald-400 rounded-full opacity-80"></div>
-              <div className="w-12 h-14 bg-rose-400 rounded-full opacity-80"></div>
+              <div className={`w-12 h-16 bg-emerald-400 rounded-full opacity-80 ${mounted ? 'animate-grow-bar animate-bounce-gentle' : ''}`}></div>
+              <div className={`w-12 h-24 bg-emerald-400 rounded-full ${mounted ? 'animate-grow-bar animation-delay-200 animate-bounce-gentle animation-delay-100' : ''}`}></div>
+              <div className={`w-12 h-12 bg-rose-400 rounded-full opacity-80 ${mounted ? 'animate-grow-bar animation-delay-400 animate-bounce-gentle animation-delay-150' : ''}`}></div>
+              <div className={`w-12 h-20 bg-emerald-400 rounded-full opacity-80 ${mounted ? 'animate-grow-bar animation-delay-600 animate-bounce-gentle animation-delay-200' : ''}`}></div>
+              <div className={`w-12 h-14 bg-rose-400 rounded-full opacity-80 ${mounted ? 'animate-grow-bar animation-delay-800 animate-bounce-gentle animation-delay-300' : ''}`}></div>
             </div>
 
             {/* Stats */}
             <div className="grid grid-cols-2 gap-4">
-              <div className="bg-white/5 rounded-2xl p-4 backdrop-blur">
+              <div className={`bg-white/5 rounded-2xl p-4 backdrop-blur hover:bg-white/10 transition-all ${mounted ? 'animate-scale-in animation-delay-1000' : 'opacity-0'}`}>
                 <p className="text-white/70 text-sm mb-1">Pemasukan</p>
-                <p className="text-emerald-300 font-semibold flex items-center gap-1">
+                <p className={`text-emerald-300 font-semibold flex items-center gap-1 ${mounted ? 'animate-bounce-gentle' : ''}`}>
                   +12%
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                   </svg>
                 </p>
               </div>
-              <div className="bg-white/5 rounded-2xl p-4 backdrop-blur">
+              <div className={`bg-white/5 rounded-2xl p-4 backdrop-blur hover:bg-white/10 transition-all ${mounted ? 'animate-scale-in animation-delay-1100' : 'opacity-0'}`}>
                 <p className="text-white/70 text-sm mb-1">Pengeluaran</p>
-                <p className="text-rose-300 font-semibold flex items-center gap-1">
+                <p className={`text-rose-300 font-semibold flex items-center gap-1 ${mounted ? 'animate-bounce-gentle animation-delay-100' : ''}`}>
                   -5%
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6" />
@@ -97,16 +134,24 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* Right Side - Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 lg:p-12">
-        <div className="w-full max-w-md">
+      {/* Right Side - Enhanced Form */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 lg:p-12 relative z-10">
+        <div className={`w-full max-w-md ${mounted ? 'animate-fade-in-up animation-delay-300' : 'opacity-0'}`}>
+          {/* Logo for Mobile */}
+          <div className="lg:hidden flex items-center gap-2 mb-8">
+            <div className="w-10 h-10 bg-gradient-to-br from-[#6366F1] to-[#8B5CF6] rounded-xl flex items-center justify-center">
+              <Sparkles className="w-6 h-6 text-white" />
+            </div>
+            <span className="text-slate-900 font-bold text-xl">Pocket</span>
+          </div>
+
           <div className="mb-8">
-            <h2 className="text-3xl font-bold text-slate-900 mb-2">Selamat Datang Kembali</h2>
+            <h2 className="text-3xl font-bold text-slate-900 mb-2">Selamat Datang Kembali! 👋</h2>
             <p className="text-slate-600">Masuk untuk mengelola keuangan cerdas Anda hari ini.</p>
           </div>
 
           {error && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl flex items-start">
+            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl flex items-start animate-shake">
               <AlertCircle className="w-5 h-5 text-red-600 mr-3 mt-0.5 flex-shrink-0" />
               <p className="text-sm text-red-800">{error}</p>
             </div>
@@ -114,17 +159,17 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Email */}
-            <div>
+            <div className="transform transition-all hover:scale-[1.01]">
               <label className="block text-sm font-medium text-slate-700 mb-2">
                 Email
               </label>
-              <div className="relative">
+              <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Mail className="w-5 h-5 text-slate-400" />
+                  <Mail className="w-5 h-5 text-slate-400 group-focus-within:text-[#6366F1] transition-colors" />
                 </div>
                 <input
                   type="email"
-                  className="w-full pl-12 pr-4 py-3.5 bg-slate-100 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6366F1] focus:border-transparent transition-all"
+                  className="w-full pl-12 pr-4 py-3.5 bg-white border-2 border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6366F1] focus:border-transparent transition-all"
                   placeholder="nama@email.com"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -134,22 +179,22 @@ export default function LoginPage() {
             </div>
 
             {/* Password */}
-            <div>
+            <div className="transform transition-all hover:scale-[1.01]">
               <div className="flex items-center justify-between mb-2">
                 <label className="block text-sm font-medium text-slate-700">
                   Password
                 </label>
-                <Link href="#" className="text-sm text-[#6366F1] hover:underline">
+                <Link href="#" className="text-sm text-[#6366F1] hover:underline font-medium">
                   Lupa password?
                 </Link>
               </div>
-              <div className="relative">
+              <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Lock className="w-5 h-5 text-slate-400" />
+                  <Lock className="w-5 h-5 text-slate-400 group-focus-within:text-[#6366F1] transition-colors" />
                 </div>
                 <input
                   type={showPassword ? "text" : "password"}
-                  className="w-full pl-12 pr-12 py-3.5 bg-slate-100 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6366F1] focus:border-transparent transition-all"
+                  className="w-full pl-12 pr-12 py-3.5 bg-white border-2 border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6366F1] focus:border-transparent transition-all"
                   placeholder="••••••••"
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
@@ -158,7 +203,7 @@ export default function LoginPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-4 flex items-center"
+                  className="absolute inset-y-0 right-0 pr-4 flex items-center hover:scale-110 transition-transform"
                 >
                   {showPassword ? (
                     <EyeOff className="w-5 h-5 text-slate-400" />
@@ -173,9 +218,10 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] text-white font-semibold py-4 rounded-xl hover:shadow-xl hover:scale-[1.02] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] text-white font-semibold py-4 rounded-xl hover:shadow-2xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden group"
             >
-              {loading ? 'Memproses...' : 'Masuk Ke Akun'}
+              <span className="relative z-10">{loading ? 'Memproses...' : 'Masuk Ke Akun'}</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-[#8B5CF6] to-[#6366F1] opacity-0 group-hover:opacity-100 transition-opacity"></div>
             </button>
           </form>
 
@@ -185,15 +231,15 @@ export default function LoginPage() {
               <div className="w-full border-t border-slate-200"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-slate-50 text-slate-500 uppercase text-xs font-medium">atau</span>
+              <span className="px-4 bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 text-slate-500 uppercase text-xs font-medium">atau</span>
             </div>
           </div>
 
-          {/* Google Sign In */}
+          {/* Google Button */}
           <button
             type="button"
             onClick={() => signIn('google', { callbackUrl: '/dashboard' })}
-            className="w-full flex items-center justify-center gap-3 bg-white border border-slate-200 text-slate-700 font-medium py-4 rounded-xl hover:bg-slate-50 hover:shadow-md transition-all duration-300"
+            className="w-full flex items-center justify-center gap-3 bg-white border-2 border-slate-200 text-slate-700 font-medium py-4 rounded-xl hover:bg-slate-50 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>

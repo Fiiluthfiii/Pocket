@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Plus, Edit, Trash2, Wallet, CreditCard, Banknote, Smartphone, Search, PlusCircle } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import WalletModal from './WalletModal';
+import { usePreferences } from '@/components/providers/PreferencesProvider';
 
 const WALLET_ICONS = {
   cash: Banknote,
@@ -27,6 +28,55 @@ export default function WalletsClient({ userId }) {
   const [showModal, setShowModal] = useState(false);
   const [editingWallet, setEditingWallet] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const { language } = usePreferences();
+
+  // Translations
+  const t = {
+    id: {
+      search: 'Cari dompet atau rekening...',
+      addWallet: 'Tambah Dompet',
+      title: 'Dompet & Rekening',
+      subtitle: 'Kelola semua aset Anda dalam satu tempat.',
+      totalBalance: 'TOTAL SALDO GABUNGAN',
+      institutionAllocation: 'Alokasi Institusi',
+      allocationSubtitle: 'Distribusi aset berdasarkan bank & e-wallet',
+      institutions: 'Institusi',
+      main: 'Utama',
+      noData: 'Belum ada data',
+      walletList: 'Daftar Dompet',
+      activeWallets: 'dompet aktif',
+      totalBalanceText: 'Total saldo',
+      balance: 'SALDO',
+      noWallets: 'Belum ada dompet',
+      addFirstWallet: 'Tambah Dompet Pertama',
+      loading: 'Memuat...',
+      deleteConfirm: 'Apakah Anda yakin ingin menghapus dompet ini? Semua transaksi terkait akan terhapus.',
+      deleteLastWallet: 'Tidak bisa menghapus dompet terakhir. Minimal 1 dompet harus ada.',
+    },
+    en: {
+      search: 'Search wallet or account...',
+      addWallet: 'Add Wallet',
+      title: 'Wallets & Accounts',
+      subtitle: 'Manage all your assets in one place.',
+      totalBalance: 'TOTAL COMBINED BALANCE',
+      institutionAllocation: 'Institution Allocation',
+      allocationSubtitle: 'Asset distribution by bank & e-wallet',
+      institutions: 'Institutions',
+      main: 'Main',
+      noData: 'No data yet',
+      walletList: 'Wallet List',
+      activeWallets: 'active wallets',
+      totalBalanceText: 'Total balance',
+      balance: 'BALANCE',
+      noWallets: 'No wallets yet',
+      addFirstWallet: 'Add First Wallet',
+      loading: 'Loading...',
+      deleteConfirm: 'Are you sure you want to delete this wallet? All related transactions will be deleted.',
+      deleteLastWallet: 'Cannot delete last wallet. At least 1 wallet must exist.',
+    }
+  };
+
+  const text = t[language] || t.id;
 
   const fetchWallets = async () => {
     try {
@@ -46,11 +96,11 @@ export default function WalletsClient({ userId }) {
 
   const handleDelete = async (id) => {
     if (wallets.length === 1) {
-      alert('Tidak bisa menghapus dompet terakhir. Minimal 1 dompet harus ada.');
+      alert(text.deleteLastWallet);
       return;
     }
 
-    if (!confirm('Apakah Anda yakin ingin menghapus dompet ini? Semua transaksi terkait akan terhapus.')) return;
+    if (!confirm(text.deleteConfirm)) return;
 
     try {
       const response = await fetch(`/api/wallets/${id}`, {
@@ -83,18 +133,7 @@ export default function WalletsClient({ userId }) {
     }).format(amount);
   };
 
-  const formatCurrencyShort = (amount) => {
-    if (amount >= 1000000) {
-      return `Rp ${(amount / 1000).toFixed(0)}k`;
-    }
-    return formatCurrency(amount);
-  };
-
   const totalBalance = wallets.reduce((sum, wallet) => sum + wallet.balance, 0);
-  
-  // Calculate asset liquid and investment (for demo, split balance)
-  const assetLiquid = totalBalance * 0.89; // 89%
-  const investment = totalBalance * 0.11; // 11%
 
   // Prepare data for pie chart
   const chartData = wallets.map(wallet => ({
@@ -111,7 +150,7 @@ export default function WalletsClient({ userId }) {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-slate-600">Memuat...</div>
+        <div className="text-slate-600">{text.loading}</div>
       </div>
     );
   }
@@ -131,7 +170,7 @@ export default function WalletsClient({ userId }) {
           <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-purple-500 z-10 pointer-events-none" />
           <input
             type="text"
-            placeholder="Cari dompet atau rekening..."
+            placeholder={text.search}
             className="relative w-full pl-12 pr-4 py-3 bg-gradient-to-r from-white via-purple-50 to-pink-50 border-2 border-purple-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent text-sm font-medium shadow-lg hover:shadow-xl transition-all"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -158,7 +197,7 @@ export default function WalletsClient({ userId }) {
             <div className="absolute bottom-2 left-4 w-1.5 h-1.5 bg-white rounded-full animate-pulse pointer-events-none" style={{ animationDelay: '0.3s' }}></div>
             
             <Plus className="w-5 h-5 relative z-10" />
-            <span className="relative z-10">Tambah Dompet</span>
+            <span className="relative z-10">{text.addWallet}</span>
           </button>
         </div>
       </div>
@@ -176,9 +215,9 @@ export default function WalletsClient({ userId }) {
           <div className="absolute bottom-4 left-8 w-1 h-1 bg-purple-400 rounded-full animate-pulse shadow-lg pointer-events-none" style={{ animationDelay: '0.5s' }}></div>
           <div className="absolute bottom-6 left-16 w-2 h-2 bg-blue-400 rounded-full animate-pulse shadow-lg pointer-events-none" style={{ animationDelay: '0.7s' }}></div>
           
-          <h1 className="text-3xl font-black text-slate-900 relative z-10">Dompet & Rekening</h1>
+          <h1 className="text-3xl font-black text-slate-900 relative z-10">{text.title}</h1>
           <p className="text-slate-600 mt-1 font-medium relative z-10">
-            Kelola semua aset likuid dan investasi Anda dalam satu tempat.
+            {text.subtitle}
           </p>
         </div>
       </div>
@@ -206,58 +245,15 @@ export default function WalletsClient({ userId }) {
               className="bg-white/20 backdrop-blur-sm text-white px-5 py-2.5 rounded-xl font-bold hover:bg-white/30 hover:scale-105 transition-all flex items-center gap-2 border border-white/30 cursor-pointer"
             >
               <PlusCircle className="w-4 h-4" />
-              Tambah Dompet
+              {text.addWallet}
             </button>
           </div>
 
           <div className="relative z-10">
-            <p className="text-white/80 text-sm font-bold uppercase tracking-wider mb-2">TOTAL SALDO GABUNGAN</p>
+            <p className="text-white/80 text-sm font-bold uppercase tracking-wider mb-2">{text.totalBalance}</p>
             <h2 className="text-4xl font-black mb-8 drop-shadow-lg">
               {formatCurrency(totalBalance)}
             </h2>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-5 border border-white/20 relative overflow-hidden group hover:bg-white/15 transition-all">
-                {/* Animated background glow */}
-                <div className="absolute inset-0 bg-gradient-to-r from-green-400/20 to-emerald-400/20 animate-pulse pointer-events-none"></div>
-                
-                {/* Decorative circles */}
-                <div className="absolute -top-4 -right-4 w-16 h-16 bg-green-400/10 rounded-full blur-xl pointer-events-none"></div>
-                
-                <div className="relative z-10">
-                  <p className="text-white/70 text-xs mb-1 font-bold uppercase">Aset Likuid</p>
-                  <p className="text-xl font-black">{formatCurrencyShort(assetLiquid)}</p>
-                  <div className="mt-3 w-full h-1.5 bg-white/20 rounded-full overflow-hidden relative shadow-inner">
-                    <div className="h-full bg-gradient-to-r from-green-400 to-emerald-400 rounded-full relative shadow-lg" style={{ width: '89%' }}>
-                      {/* Animated shine effect */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent animate-pulse pointer-events-none"></div>
-                      {/* Moving gradient */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 pointer-events-none"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-5 border border-white/20 relative overflow-hidden group hover:bg-white/15 transition-all">
-                {/* Animated background glow */}
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-400/20 to-pink-400/20 animate-pulse pointer-events-none" style={{ animationDelay: '0.5s' }}></div>
-                
-                {/* Decorative circles */}
-                <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-purple-400/10 rounded-full blur-xl pointer-events-none"></div>
-                
-                <div className="relative z-10">
-                  <p className="text-white/70 text-xs mb-1 font-bold uppercase">Investasi</p>
-                  <p className="text-xl font-black">{formatCurrencyShort(investment)}</p>
-                  <div className="mt-3 w-full h-1.5 bg-white/20 rounded-full overflow-hidden relative shadow-inner">
-                    <div className="h-full bg-gradient-to-r from-purple-400 to-pink-400 rounded-full relative shadow-lg" style={{ width: '11%' }}>
-                      {/* Animated shine effect */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent animate-pulse pointer-events-none"></div>
-                      {/* Moving gradient */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 pointer-events-none"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
 
@@ -275,8 +271,8 @@ export default function WalletsClient({ userId }) {
           <div className="absolute bottom-12 right-20 w-2.5 h-2.5 bg-indigo-400 rounded-full animate-pulse pointer-events-none" style={{ animationDelay: '0.9s' }}></div>
           
           <div className="relative z-10">
-            <h3 className="text-xl font-black text-slate-900 mb-1">Alokasi Institusi</h3>
-            <p className="text-sm text-slate-600 mb-6 font-medium">Distribusi aset berdasarkan bank & e-wallet</p>
+            <h3 className="text-xl font-black text-slate-900 mb-1">{text.institutionAllocation}</h3>
+            <p className="text-sm text-slate-600 mb-6 font-medium">{text.allocationSubtitle}</p>
 
           {chartData.length > 0 ? (
             <div>
@@ -303,8 +299,8 @@ export default function WalletsClient({ userId }) {
                   </PieChart>
                 </ResponsiveContainer>
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <p className="text-xs text-slate-600 font-bold">Institusi</p>
-                  <p className="text-xl font-black text-slate-900">{wallets.length} Utama</p>
+                  <p className="text-xs text-slate-600 font-bold">{text.institutions}</p>
+                  <p className="text-xl font-black text-slate-900">{wallets.length} {text.main}</p>
                 </div>
               </div>
 
@@ -346,7 +342,7 @@ export default function WalletsClient({ userId }) {
                 <div className="w-32 h-32 bg-gradient-to-br from-purple-200/30 to-pink-200/30 rounded-full blur-2xl animate-pulse"></div>
               </div>
               <Wallet className="w-12 h-12 mb-2 relative z-10 pointer-events-none" />
-              <p className="relative z-10 font-semibold">Belum ada data</p>
+              <p className="relative z-10 font-semibold">{text.noData}</p>
             </div>
           )}
           </div>
@@ -375,9 +371,9 @@ export default function WalletsClient({ userId }) {
             <div className="absolute top-1/2 right-1/4 w-1.5 h-1.5 bg-rose-400 rounded-full animate-pulse shadow-lg pointer-events-none" style={{ animationDelay: '0.9s' }}></div>
             
             <div className="relative z-10">
-              <h2 className="text-2xl font-black text-slate-900">Daftar Dompet</h2>
+              <h2 className="text-2xl font-black text-slate-900">{text.walletList}</h2>
               <p className="text-sm text-slate-600 mt-1 font-medium">
-                {filteredWallets.length} dompet aktif • Total saldo {formatCurrency(totalBalance)}
+                {filteredWallets.length} {text.activeWallets} • {text.totalBalanceText} {formatCurrency(totalBalance)}
               </p>
             </div>
             
@@ -502,7 +498,7 @@ export default function WalletsClient({ userId }) {
 
                 {/* Balance */}
                 <div className="relative z-10">
-                  <p className="text-xs text-slate-600 uppercase font-bold mb-1">SALDO</p>
+                  <p className="text-xs text-slate-600 uppercase font-bold mb-1">{text.balance}</p>
                   <p className="text-xl font-black text-slate-900">
                     {formatCurrency(wallet.balance)}
                   </p>
@@ -522,14 +518,14 @@ export default function WalletsClient({ userId }) {
           
           <div className="relative z-10">
             <Wallet className="w-16 h-16 text-purple-300 mx-auto mb-4 animate-bounce-slow" />
-            <p className="text-slate-400 mb-4 font-semibold">Belum ada dompet</p>
+            <p className="text-slate-400 mb-4 font-semibold">{text.noWallets}</p>
             <button
               onClick={handleAddWallet}
               type="button"
               className="bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] text-white px-6 py-3 rounded-xl font-bold hover:shadow-lg hover:scale-105 transition-all inline-flex items-center gap-2 cursor-pointer"
             >
               <Plus className="w-5 h-5" />
-              Tambah Dompet Pertama
+              {text.addFirstWallet}
             </button>
           </div>
         </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { User, Mail, Lock, Eye, EyeOff, Shield, AlertCircle, Sparkles, CheckCircle, TrendingUp } from 'lucide-react';
@@ -322,6 +323,7 @@ export default function RegisterPage() {
           {/* Google Sign In */}
           <button
             type="button"
+            onClick={() => signIn('google', { callbackUrl: '/dashboard' })}
             className="w-full flex items-center justify-center gap-3 bg-white border-2 border-slate-200 text-slate-700 font-medium py-4 rounded-xl hover:bg-slate-50 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">

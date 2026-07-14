@@ -27,12 +27,11 @@ export async function PUT(request, { params }) {
       );
     }
 
-    // Parse date and preserve current time if only date is provided
+    // Parse date and set to noon (12:00) local time to avoid timezone issues
     const transactionDate = new Date(date);
-    // If only date is provided (without time), use current time
+    // If only date is provided (without time), set to noon local time
     if (date.length <= 10) {
-      const now = new Date();
-      transactionDate.setHours(now.getHours(), now.getMinutes(), now.getSeconds(), now.getMilliseconds());
+      transactionDate.setHours(12, 0, 0, 0);
     }
 
     // Revert old transaction from wallet

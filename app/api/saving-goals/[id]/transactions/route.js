@@ -161,15 +161,14 @@ export async function POST(request, { params }) {
 
     console.log('Using category:', savingsCategory.name);
 
-    // Parse and use the date from form with current local time
+    // Parse date and set to noon (12:00) local time to avoid timezone issues
     let transactionDate;
     if (date) {
-      // Create date with current local time
       const [year, month, day] = date.split('-');
-      transactionDate = new Date();
-      transactionDate.setFullYear(parseInt(year), parseInt(month) - 1, parseInt(day));
+      transactionDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day), 12, 0, 0, 0);
     } else {
       transactionDate = new Date();
+      transactionDate.setHours(12, 0, 0, 0);
     }
     
     console.log('Transaction date:', transactionDate.toISOString());

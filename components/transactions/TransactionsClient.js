@@ -71,6 +71,7 @@ export default function TransactionsClient({ userId }) {
   const [filterMonth, setFilterMonth] = useState('all');
   const [filterCategory, setFilterCategory] = useState('all');
   const [filterSort, setFilterSort] = useState('newest');
+  const [categories, setCategories] = useState([]);
   
   // Get search query from URL parameter
   useEffect(() => {
@@ -92,8 +93,19 @@ export default function TransactionsClient({ userId }) {
     }
   };
 
+  const fetchCategories = async () => {
+    try {
+      const response = await fetch('/api/categories');
+      const data = await response.json();
+      setCategories(data);
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
+  };
+
   useEffect(() => {
     fetchTransactions();
+    fetchCategories();
   }, []);
 
   const handleDelete = async (id) => {
@@ -133,7 +145,28 @@ export default function TransactionsClient({ userId }) {
       transaction.wallet.name.toLowerCase().includes(searchLower)
     );
 
-    return matchSearch;
+    // Filter by month
+    let matchMonth = true;
+    if (filterMonth !== 'all') {
+      const transactionDate = new Date(transaction.date);
+      const now = new Date();
+      
+      if (filterMonth === 'current') {
+        // Current month
+        matchMonth = transactionDate.getMonth() === now.getMonth() && 
+                     transactionDate.getFullYear() === now.getFullYear();
+      } else {
+        // Specific month format: "2026-07"
+        const [year, month] = filterMonth.split('-');
+        matchMonth = transactionDate.getMonth() === parseInt(month) - 1 && 
+                     transactionDate.getFullYear() === parseInt(year);
+      }
+    }
+
+    // Filter by category
+    const matchCategory = filterCategory === 'all' || transaction.categoryId === filterCategory;
+
+    return matchSearch && matchMonth && matchCategory;
   });
 
   // Sort transactions
@@ -226,28 +259,47 @@ export default function TransactionsClient({ userId }) {
 
           {/* Filter Buttons */}
           <div className="flex gap-2 flex-wrap">
-            <button
-              onClick={() => setFilterMonth(filterMonth === 'all' ? 'current' : 'all')}
-              className={`px-5 py-3 rounded-xl text-sm font-bold transition-all flex items-center gap-2 shadow-md hover:shadow-lg hover:scale-105 ${
-                filterMonth === 'current'
-                  ? 'bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] text-white'
-                  : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200'
-              }`}
+            {/* Month Filter Dropdown */}
+            <select
+              value={filterMonth}
+              onChange={(e) => setFilterMonth(e.target.value)}
+              className="px-5 py-3 bg-white text-slate-700 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#6366F1] hover:bg-slate-50 transition-all shadow-md hover:shadow-lg border border-slate-200 flex items-center gap-2"
             >
-              <Calendar className="w-4 h-4" />
-              {t('thisMonth')}
-            </button>
-            <button
-              onClick={() => setFilterCategory(filterCategory === 'all' ? 'expense' : 'all')}
-              className={`px-5 py-3 rounded-xl text-sm font-bold transition-all flex items-center gap-2 shadow-md hover:shadow-lg hover:scale-105 ${
-                filterCategory === 'expense'
-                  ? 'bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] text-white'
-                  : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200'
-              }`}
+              <option value="all">Semua Bulan</option>
+              <option value="current">{t('thisMonth')}</option>
+              {(() => {
+                const months = [];
+                const now = new Date();
+                // Generate last 12 months
+                for (let i = 0; i < 12; i++) {
+                  const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
+                  const value = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+                  const label = format(date, 'MMMM yyyy', { locale: id });
+                  months.push(
+                    <option key={value} value={value}>
+                      {label}
+                    </option>
+                  );
+                }
+                return months;
+              })()}
+            </select>
+
+            {/* Category Filter Dropdown */}
+            <select
+              value={filterCategory}
+              onChange={(e) => setFilterCategory(e.target.value)}
+              className="px-5 py-3 bg-white text-slate-700 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#6366F1] hover:bg-slate-50 transition-all shadow-md hover:shadow-lg border border-slate-200 flex items-center gap-2"
             >
-              <Tag className="w-4 h-4" />
-              {t('category')}
-            </button>
+              <option value="all">Semua Kategori</option>
+              {categories.map(category => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+
+            {/* Sort Dropdown */}
             <select
               value={filterSort}
               onChange={(e) => setFilterSort(e.target.value)}
